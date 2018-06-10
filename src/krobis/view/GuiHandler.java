@@ -2,10 +2,7 @@ package krobis.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import krobis.controller.GameController;
 
@@ -107,7 +104,7 @@ public class GuiHandler implements Runnable {
       
       this.frame.pack();
       this.frame.setResizable(false);
-      this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
       this.frame.setVisible(true);
     }
 
@@ -115,6 +112,7 @@ public class GuiHandler implements Runnable {
       this.textIn = new JTextField();
       this.textIn.setPreferredSize(DIM_TEXTIN);
       this.textIn.setBackground(Color.LIGHT_GRAY);
+      this.textIn.setBorder(null);
     }
 
     private void initButtons() {
