@@ -2,7 +2,11 @@ package krobis.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -23,6 +27,10 @@ public class GuiHandler implements Runnable {
     private static final Dimension DIM_TEXTIN = new Dimension(WIDTH / 4, HEIGHT / 8);
     private static final Dimension DIM_PANELSTATUS = new Dimension(WIDTH / 4, HEIGHT / 4);
 
+    private static final Dimension DIM_MENUBUTTON = new Dimension(100, 50);
+    
+    private static final Font FONT_TEXTIN = new Font("garamond", Font.PLAIN, 32);
+    
     private GameController gameController;
     
     /**
@@ -65,6 +73,12 @@ public class GuiHandler implements Runnable {
      * The container for menu buttons
      */
     private JPanel containerMenuButton;
+    
+    private JButton home;
+    
+    private JButton save;
+    
+    private JButton options; 
 
     public GuiHandler(GameController gameController) {
         this.gameController = gameController;
@@ -87,7 +101,13 @@ public class GuiHandler implements Runnable {
       
     }
 
-    private void assemble() { 
+    private void assemble() {
+      // menu buttons 
+      
+      this.containerMenuButton.setLayout(new GridLayout(1, 2, 20, 20));
+      this.containerMenuButton.add(this.home);
+      this.containerMenuButton.add(this.options);
+      
       // leftContainer
       this.containerLeft.setLayout(new BoxLayout(this.containerLeft, BoxLayout.PAGE_AXIS));
       this.containerLeft.add(this.panelStatus);
@@ -115,9 +135,23 @@ public class GuiHandler implements Runnable {
       this.textIn = new JTextField();
       this.textIn.setPreferredSize(DIM_TEXTIN);
       this.textIn.setBackground(Color.LIGHT_GRAY);
+      this.textIn.setFont(FONT_TEXTIN);
+      this.textIn.setBorder(null);
     }
 
     private void initButtons() {
+      this.home = new JButton("Home"); 
+      this.options = new JButton("Options");
+      
+      JButton[] buttons = new JButton[] {
+          home, options
+      };
+      
+      for (JButton button : buttons) {
+        button.setPreferredSize(DIM_MENUBUTTON);
+      }
+      
+      
     }
 
     private void initPanels() {
