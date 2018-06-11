@@ -7,15 +7,27 @@ import krobis.view.GuiHandler;
 import javax.swing.*;
 
 public class GameController {
+  
+    private static GameController instance = null;
 
     private Father father;
     private ModelManager modelManager;
     private GuiHandler guiHandler;
 
-    public GameController(Father father) {
+    private GameController(Father father) {
         this.father = father;
-        this.modelManager = new ModelManager(this);
-        SwingUtilities.invokeLater(this.guiHandler = new GuiHandler(this));
+    }
+    
+    public void init() {
+      this.modelManager = new ModelManager(this);
+      SwingUtilities.invokeLater(this.guiHandler = new GuiHandler(this));
+    }
+    
+    public static GameController getInstance(Father father) {
+      if (instance == null) {
+        instance = new GameController(father);
+      }
+      return instance;
     }
 
     public void startGame() {

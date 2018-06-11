@@ -4,10 +4,19 @@ import krobis.controller.GameController;
 
 public class Father {
 
-    public Father() {
+  GameController gc;
+  
+  public static void main(String[] args) {
+    new Father(args).begin();
+  }
 
-        new GameController(this);
-
-    }
+  private Father(String[] args) { 
+    //...
+  }
+  
+  private void begin() { 
+    gc = GameController.getInstance(this);
+    gc.init();
+  }
 
 }
