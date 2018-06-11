@@ -80,6 +80,13 @@ public class GuiHandler implements Runnable {
     
     private JButton options;  
 
+    public static final String BUTTON_NAME_HOME = "Home";
+    public static final String BUTTON_NAME_OPTIONS = "Options";
+    public static final String BUTTON_NAME_NEW = "New Game";
+    public static final String BUTTON_NAME_LOAD = "Load Game";
+    public static final String BUTTON_NAME_SETTINGS = "Settings"; 
+    public static final String BUTTON_NAME_CREDITS = "Credits";
+
     public GuiHandler(GameController gameController) {
         this.gameController = gameController;
     }
@@ -125,13 +132,13 @@ public class GuiHandler implements Runnable {
         gameLabels.add(welcomeText);
         gameLabels.add(instructionsText);
 
-        newGame = new JButton("New Game");
+        newGame = new JButton(BUTTON_NAME_NEW);
 
-        loadGame = new JButton("Load Game");
+        loadGame = new JButton(BUTTON_NAME_NEW);
 
-        settings = new JButton("Settings");
+        settings = new JButton(BUTTON_NAME_NEW);
 
-        credits = new JButton("Credits");
+        credits = new JButton(BUTTON_NAME_NEW);
 
         gameButtons.add(newGame);
         gameButtons.add(loadGame);
@@ -231,8 +238,8 @@ public class GuiHandler implements Runnable {
     }
 
     private void initButtons() {
-      this.home = new JButton("Home");  
-      this.options = new JButton("Options");
+      this.home = new JButton(BUTTON_NAME_HOME);  
+      this.options = new JButton(BUTTON_NAME_OPTIONS);
       
       JButton[] buttons = new JButton[] {
           home, options
