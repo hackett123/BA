@@ -4,12 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import krobis.controller.GameController;
 
@@ -98,7 +95,91 @@ public class GuiHandler implements Runnable {
       this.initTextIn(); 
       
       this.assemble();
+
+      this.displayStartupScreen();
       
+    }
+
+    private void displayStartupScreen() {
+
+        /**
+         * panelDraw setup
+         */
+        JLabel welcomeText, instructionsText;
+        JButton newGame, loadGame, settings, credits;
+
+        ArrayList<JLabel> gameLabels = new ArrayList<>();
+        ArrayList<JButton> gameButtons = new ArrayList<>();
+
+        welcomeText = new JLabel("Welcome to Blacksmith's Apprentice!", SwingConstants.CENTER);
+        welcomeText.setFont(new Font("Courier New", Font.BOLD, 18));
+        welcomeText.setForeground(Color.DARK_GRAY);
+
+        instructionsText = new JLabel("Choose from one of the options below to begin:", SwingConstants.CENTER);
+        instructionsText.setFont(new Font("Courier New", Font.ITALIC, 16));
+        instructionsText.setForeground(Color.DARK_GRAY);
+
+        gameLabels.add(welcomeText);
+        gameLabels.add(instructionsText);
+
+        newGame = new JButton("New Game");
+
+        loadGame = new JButton("Load Game");
+
+        settings = new JButton("Settings");
+
+        credits = new JButton("Credits");
+
+        gameButtons.add(newGame);
+        gameButtons.add(loadGame);
+        gameButtons.add(settings);
+        gameButtons.add(credits);
+
+        for (JButton gameButton : gameButtons) {
+            gameButton.setFont(new Font("Courier New", Font.BOLD, 16));
+            gameButton.setBackground(Color.DARK_GRAY);
+            gameButton.setForeground(Color.WHITE);
+            gameButton.setOpaque(true);
+            gameButton.setBorderPainted(true);
+            gameButton.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2, true));
+        }
+
+        GridLayout grid = new GridLayout(4, 4);
+        grid.setHgap(WIDTH / 10);
+        grid.setVgap(HEIGHT / 10);
+        panelDraw.setLayout(grid);
+
+        panelDraw.add(welcomeText);
+        panelDraw.add(instructionsText);
+        panelDraw.add(newGame);
+        panelDraw.add(loadGame);
+        panelDraw.add(settings);
+        panelDraw.add(credits);
+
+        /**
+         * panelStatus setup
+         */
+
+        JLabel title, cred, contact;
+        title = new JLabel("BLACKSMITH'S APPRENTICE", SwingConstants.CENTER);
+        title.setFont(new Font("Courier New", Font.BOLD, 24));
+        title.setForeground(Color.WHITE);
+
+        cred = new JLabel("Created by MHSProductions");
+        cred.setFont(new Font("Courier New", Font.ITALIC, 12));
+        cred.setForeground(Color.WHITE);
+
+        contact = new JLabel("Contact Us: mhsproductions.com, mhsproductions1@gmail.com");
+        contact.setFont(new Font("Courier New", Font.PLAIN, 12));
+        contact.setForeground(Color.WHITE);
+
+        GridLayout gl = new GridLayout(3, 1);
+        panelStatus.setLayout(gl);
+
+        panelStatus.add(title);
+        panelStatus.add(cred);
+        panelStatus.add(contact);
+
     }
 
     private void assemble() {
@@ -149,6 +230,8 @@ public class GuiHandler implements Runnable {
       
       for (JButton button : buttons) {
         button.setPreferredSize(DIM_MENUBUTTON);
+        button.setForeground(Color.BLACK);
+        button.setBackground(Color.WHITE);
       }
       
       
@@ -158,12 +241,12 @@ public class GuiHandler implements Runnable {
       // panelDraw
       this.panelDraw = new JPanel();
       this.panelDraw.setPreferredSize(DIM_PANELDRAW);
-      this.panelDraw.setBackground(Color.YELLOW);
+      this.panelDraw.setBackground(Color.WHITE);
       
       // panelStatus
       this.panelStatus = new JPanel();
       this.panelStatus.setPreferredSize(DIM_PANELSTATUS);
-      this.panelStatus.setBackground(Color.WHITE);
+      this.panelStatus.setBackground(Color.BLACK);
     }
 
     private void initContainers() {
@@ -190,6 +273,6 @@ public class GuiHandler implements Runnable {
     }
 
     private void initFrame() {
-      this.frame = new JFrame("hello gruel world");
+      this.frame = new JFrame("Blacksmith's Apprentice V 1.0.0");
     }
 }
