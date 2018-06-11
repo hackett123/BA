@@ -1,21 +1,21 @@
 package krobis.controller;
 
-import krobis.main.Father;
+import java.awt.Graphics2D;
+
+import javax.swing.SwingUtilities;
+
 import krobis.model.ModelManager;
 import krobis.view.GuiHandler;
-
-import javax.swing.*;
 
 public class GameController {
   
     private static GameController instance = null;
-
-    private Father father;
+ 
     private ModelManager modelManager;
     private GuiHandler guiHandler;
 
-    private GameController(Father father) { 
-        this.father = father;
+    private GameController() {  
+      
     }
     
     public void init() {
@@ -23,15 +23,40 @@ public class GameController {
       SwingUtilities.invokeLater(this.guiHandler = new GuiHandler(this));
     }
     
-    public static GameController getInstance(Father father) {
+    public static GameController getInstance() {
       if (instance == null) {
-        instance = new GameController(father);
+        instance = new GameController();
       }
       return instance;
     }
 
     public void startGame() {
 
+    }
+
+    /**
+     * To delegate input text to the modelmanager
+     * @param msg
+     */
+    public void textIn(String msg) {
+      this.modelManager.textIn(msg);
+    }
+
+    /**
+     * To delegate a button press to the modelmanager
+     * 
+     * @param actionCommand
+     */
+    public void onButtonPress(String actionCommand) {
+      this.modelManager.onButtonPress(actionCommand);
+    }
+
+    /**
+     * To delegate drawing the playpanel to the modelmanager
+     * @param g
+     */
+    public void paintPlayPanel(Graphics2D g) {
+      this.modelManager.paintPlayPanel(g);
     }
 
 }

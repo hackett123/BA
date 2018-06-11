@@ -3,7 +3,10 @@ package krobis.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -78,7 +81,7 @@ public class GuiHandler implements Runnable {
     
     private JButton save;
     
-    private JButton options; 
+    private JButton options;  
 
     public GuiHandler(GameController gameController) {
         this.gameController = gameController;
@@ -137,18 +140,30 @@ public class GuiHandler implements Runnable {
       this.textIn.setBackground(Color.LIGHT_GRAY);
       this.textIn.setFont(FONT_TEXTIN);
       this.textIn.setBorder(null);
+      
+      this.textIn.addActionListener((e) -> {
+        String msg = e.getActionCommand();
+        if (!msg.equals("")) {
+          enterPressed(msg);
+        }
+      });
     }
 
     private void initButtons() {
-      this.home = new JButton("Home"); 
+      this.home = new JButton("Home");  
       this.options = new JButton("Options");
       
       JButton[] buttons = new JButton[] {
           home, options
       };
       
+      ActionListener buttonListener = (e) -> {
+        gameController.onButtonPress(e.getActionCommand());
+      };
+      
       for (JButton button : buttons) {
         button.setPreferredSize(DIM_MENUBUTTON);
+        button.addActionListener(buttonListener);
       }
       
       
@@ -156,7 +171,18 @@ public class GuiHandler implements Runnable {
 
     private void initPanels() {
       // panelDraw
-      this.panelDraw = new JPanel();
+      this.panelDraw = new JPanel() {
+        private static final long serialVersionUID = 1L;
+        
+        @Override
+        public void paintComponent(Graphics g) {
+          super.paintComponent(g);
+          
+          Graphics2D G = (Graphics2D) g;
+          gameController.paintPlayPanel(G);
+        }
+        
+      };
       this.panelDraw.setPreferredSize(DIM_PANELDRAW);
       this.panelDraw.setBackground(Color.YELLOW);
       
@@ -191,5 +217,15 @@ public class GuiHandler implements Runnable {
 
     private void initFrame() {
       this.frame = new JFrame("hello gruel world");
+    }
+    
+    
+    /**
+     * To deliver text to the gamecontroller when enter is pressed
+     * @param msg
+     */
+    private void enterPressed(String msg) {
+      this.gameController.textIn(msg);
+      this.textIn.setText("");
     }
 }
