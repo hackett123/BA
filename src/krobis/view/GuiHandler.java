@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 
 import krobis.controller.GameController;
 
-public class GuiHandler implements Runnable {
+public class GuiHandler implements Runnable { 
   
     private static final int WIDTH = 1800;
     private static final int HEIGHT = 960;

@@ -14,7 +14,7 @@ public class GameController {
     private ModelManager modelManager;
     private GuiHandler guiHandler;
 
-    private GameController(Father father) {
+    private GameController(Father father) { 
         this.father = father;
     }
     

@@ -15,7 +15,7 @@ public class Father {
   }
   
   private void begin() { 
-    gc = GameController.getInstance(this);
+    gc = GameController.getInstance(this); 
     gc.init();
   }
 
