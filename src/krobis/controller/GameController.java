@@ -59,4 +59,11 @@ public class GameController {
       this.modelManager.paintPlayPanel(g);
     }
 
+    /**
+     * To delegate repainting the playpanel to the guihandler
+     */
+    public void repaint() {
+      this.guiHandler.repaint();
+    }
+
 }

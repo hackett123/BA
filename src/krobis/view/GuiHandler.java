@@ -144,6 +144,10 @@ public class GuiHandler implements Runnable {
         settings = new JButton(BUTTON_NAME_SETTINGS);
 
         credits = new JButton(BUTTON_NAME_CREDITS);
+        
+        newGame.addActionListener((e) -> {
+          gameController.onButtonPress(e.getActionCommand());
+        });
 
         gameButtons.add(newGame);
         gameButtons.add(loadGame);
@@ -318,11 +322,15 @@ public class GuiHandler implements Runnable {
     
     
     /**
-     * To deliver text to the gamecontroller when enter is pressed
+     * To deliver text to the GameController when enter is pressed
      * @param msg
      */
     private void enterPressed(String msg) {
       this.gameController.textIn(msg);
       this.textIn.setText("");
+    }
+
+    public void repaint() {
+      this.panelDraw.repaint();
     }
 }

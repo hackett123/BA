@@ -6,6 +6,7 @@ import java.util.Stack;
 import krobis.controller.GameController;
 import krobis.model.state.GameState;
 import krobis.model.state.StateIntro;
+import krobis.model.state.StateNew;
 
 public class ModelManager {
 
@@ -34,6 +35,12 @@ public class ModelManager {
 
     public void paintPlayPanel(Graphics2D g) {
       this.stateStack.peek().drawPlayPanel(g);
+    }
+
+    public void addState(GameState newState) {
+      this.stateStack.add(newState);
+      newState.onLoad(); 
+      this.gameController.repaint();
     }
     
     

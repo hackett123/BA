@@ -4,17 +4,63 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D; 
 
-public class PlayPanelRenders {
+public class PlayPanelRenderers {
+  
+  public static interface Renderable {
+    public void render(Graphics2D g, String[] lines);
+  }
+
  
-  public static class DrawText {
+  public static class DrawText implements Renderable {
     
-    public static void render(String[] lines, int[] xCoords, int[] yCoords, Graphics2D g) {
+    private int[] xCoords;
+    private int[] yCoords;
+    
+    public DrawText(int[] xCoords, int[] yCoords) {
+      this.xCoords = xCoords;
+      this.yCoords = yCoords;
+    } 
+
+    @Override
+    public void render(Graphics2D g, String[] lines) {
       throw new UnsupportedOperationException("Unimplemented!");
     }
   }
   
-  public static class CenterText {
+  
+  
+  public static class CenterText implements Renderable {
     
+    private int width; 
+    
+    private int[] yCoords;
+    
+    private Font[] fonts = null;
+    
+    public CenterText(int width, int[] yCoords, Font[] fonts) { 
+      this.width = width;
+      this.yCoords = yCoords;
+      this.fonts = fonts;
+    }
+    
+
+    public CenterText(int width, int[] yCoords) { 
+      this.width = width;
+      this.yCoords = yCoords;
+    }
+
+
+    @Override
+    public void render(Graphics2D g, String[] lines) {
+      if (this.fonts == null) {
+        this.renderWithoutFonts(g, lines);
+      } else {
+        this.renderWithFonts(g, lines);
+      }
+    }
+    
+    
+
     /**
      * To center each line of text at its relative y coordinate, based on the used font,
      * onto a graphics2d instance
@@ -23,11 +69,7 @@ public class PlayPanelRenders {
      * @param width The width of the object onto which g renders
      * @param g 
      */
-    public static void render(String[] lines, int[] yCoords, int width, Graphics2D g) {
-      if (lines.length != yCoords.length) {
-        throw new IllegalArgumentException("Input arrays must be the same length!");
-      }
-      
+    public void renderWithoutFonts(Graphics2D g, String[] lines) { 
       // center at half the width
       int centerAbout = width / 2; 
       // get the current font
@@ -63,8 +105,7 @@ public class PlayPanelRenders {
      * @param fonts The font to use for each line of text
      * @param g 
      */
-    public static void render(String[] lines, int[] yCoords, int width, 
-        Font[] fonts, Graphics2D g) {
+    public void renderWithFonts(Graphics2D g, String[] lines) {
       if ((lines.length != yCoords.length) || (lines.length != fonts.length)) {
         throw new IllegalArgumentException("Input arrays must be the same length!");
       }
@@ -96,7 +137,7 @@ public class PlayPanelRenders {
         g.drawString(thisLine, xCoord, thisCoord);
       }
     }
-    
+
   }
   
 }

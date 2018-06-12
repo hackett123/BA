@@ -101,7 +101,7 @@ public abstract class GameState {
     
   }
   
-  protected void onLoad() {
+  public void onLoad() {
     
   }
   
