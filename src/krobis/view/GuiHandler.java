@@ -120,22 +120,10 @@ public class GuiHandler implements Runnable {
         /**
          * panelDraw setup
          */
-        JLabel welcomeText, instructionsText;
         JButton newGame, loadGame, settings, credits;
 
         ArrayList<JLabel> gameLabels = new ArrayList<>();
         ArrayList<JButton> gameButtons = new ArrayList<>();
-
-        welcomeText = new JLabel("Welcome to Blacksmith's Apprentice!", SwingConstants.CENTER);
-        welcomeText.setFont(new Font("Courier New", Font.BOLD, 18));
-        welcomeText.setForeground(Color.DARK_GRAY);
-
-        instructionsText = new JLabel("Choose from one of the options below to begin:", SwingConstants.CENTER);
-        instructionsText.setFont(new Font("Courier New", Font.ITALIC, 16));
-        instructionsText.setForeground(Color.DARK_GRAY);
-
-        gameLabels.add(welcomeText);
-        gameLabels.add(instructionsText);
 
         newGame = new JButton(BUTTON_NAME_NEW);
 
@@ -163,17 +151,15 @@ public class GuiHandler implements Runnable {
             gameButton.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2, true));
         }
 
-        GridLayout grid = new GridLayout(4, 4);
+        GridLayout grid = new GridLayout(2, 2);
         grid.setHgap(WIDTH / 10);
         grid.setVgap(HEIGHT / 10);
-        panelDraw.setLayout(grid);
+        containerChoiceButton.setLayout(grid);
 
-        panelDraw.add(welcomeText);
-        panelDraw.add(instructionsText);
-        panelDraw.add(newGame);
-        panelDraw.add(loadGame);
-        panelDraw.add(settings);
-        panelDraw.add(credits);
+        containerChoiceButton.add(newGame);
+        containerChoiceButton.add(loadGame);
+        containerChoiceButton.add(settings);
+        containerChoiceButton.add(credits);
 
         /**
          * panelStatus setup
