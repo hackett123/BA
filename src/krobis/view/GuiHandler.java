@@ -5,7 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout; 
+import java.awt.GridLayout;
+import java.awt.RenderingHints;
 import java.awt.event.ActionListener; 
 import java.util.ArrayList; 
 
@@ -17,6 +18,8 @@ public class GuiHandler implements Runnable {
   
     private static final int WIDTH = 1800;
     private static final int HEIGHT = 960;
+    
+    public static final int WIDTH_PLAYPANEL = 3 * WIDTH / 4;
     
     private static final Dimension DIM_CONTAINER = new Dimension(WIDTH, HEIGHT);
   
@@ -30,6 +33,8 @@ public class GuiHandler implements Runnable {
     private static final Dimension DIM_MENUBUTTON = new Dimension(100, 50);
     
     private static final Font FONT_TEXTIN = new Font("garamond", Font.PLAIN, 32);
+    
+    private static final Color COLOR_PLAYPANEL = new Color(0xffffff);
     
     private GameController gameController;
     
@@ -169,7 +174,6 @@ public class GuiHandler implements Runnable {
         /**
          * panelStatus setup
          */
-
         JLabel title, cred, contact;
         title = new JLabel("BLACKSMITH'S APPRENTICE", SwingConstants.CENTER);
         title.setFont(new Font("Courier New", Font.BOLD, 24));
@@ -266,15 +270,18 @@ public class GuiHandler implements Runnable {
         
         @Override
         public void paintComponent(Graphics g) {
-          super.paintComponent(g);
+          super.paintComponent(g); 
           
           Graphics2D G = (Graphics2D) g;
+          G.setRenderingHint(
+              RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+          G.setColor(COLOR_PLAYPANEL);
+          G.fillRect(0, 0, WIDTH_PLAYPANEL, HEIGHT);
           gameController.paintPlayPanel(G);
         }
         
       };
-      this.panelDraw.setPreferredSize(DIM_PANELDRAW);
-      this.panelDraw.setBackground(Color.WHITE);
+      this.panelDraw.setPreferredSize(DIM_PANELDRAW); 
       
       // panelStatus
       this.panelStatus = new JPanel();

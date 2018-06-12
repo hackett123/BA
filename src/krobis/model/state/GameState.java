@@ -124,6 +124,11 @@ public abstract class GameState {
   public void drawPlayPanel(Graphics2D g) {
     
   }
+
+
+  public void textIn(String msg) {
+    
+  }
   
 } 
 

@@ -25,7 +25,7 @@ public class ModelManager {
      * @param msg
      */
     public void textIn(String msg) {
-      
+      this.stateStack.peek().textIn(msg);
     }
 
     public void onButtonPress(String actionCommand) {
