@@ -42,12 +42,19 @@ public class StateNew extends GameState {
           .setColor(Color.BLACK)
           .setRenderer(rendererTitle)
           .setLines(linesTitle)
+          .overrideOnLoad(() -> { System.out.println("ran");})
+          .overrideTextIn((text) -> System.out.println("text in"))
     };
   }
   
   @Override
   public void drawPlayPanel(Graphics2D g) {
     this.stateQueue.peek().drawPlayPanel(g);
+  }
+  
+  @Override
+  public void onLoad() {
+    this.stateQueue.peek().onLoad();
   }
 
 }

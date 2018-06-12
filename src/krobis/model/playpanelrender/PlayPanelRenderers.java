@@ -38,6 +38,9 @@ public class PlayPanelRenderers {
     private Font[] fonts = null;
     
     public CenterText(int width, int[] yCoords, Font[] fonts) { 
+      if (yCoords.length != fonts.length) {
+        throw new IllegalArgumentException("Input arrays must have the same lengths!");
+      }
       this.width = width;
       this.yCoords = yCoords;
       this.fonts = fonts;
@@ -52,13 +55,16 @@ public class PlayPanelRenderers {
 
     @Override
     public void render(Graphics2D g, String[] lines) {
+      if (lines.length != this.yCoords.length) {
+        throw new IllegalArgumentException("Input arrays must have the same lengths!");
+      }
+      
       if (this.fonts == null) {
         this.renderWithoutFonts(g, lines);
       } else {
         this.renderWithFonts(g, lines);
       }
-    }
-    
+    } 
     
 
     /**
@@ -105,10 +111,7 @@ public class PlayPanelRenderers {
      * @param fonts The font to use for each line of text
      * @param g 
      */
-    public void renderWithFonts(Graphics2D g, String[] lines) {
-      if ((lines.length != yCoords.length) || (lines.length != fonts.length)) {
-        throw new IllegalArgumentException("Input arrays must be the same length!");
-      }
+    public void renderWithFonts(Graphics2D g, String[] lines) { 
       
       // center at half the width
       int centerAbout = width / 2; 

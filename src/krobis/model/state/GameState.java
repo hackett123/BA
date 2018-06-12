@@ -94,15 +94,23 @@ public abstract class GameState {
   // one for each button
 
   protected void onButtonHome() {
-    
+    // tbd
   }
 
   protected void onButtonOptions() {
-    
+    // tbd
+  } 
+ 
+  public void drawPlayPanel(Graphics2D g) {
+    this.stateQueue.peek().drawPlayPanel(g);
   }
-  
+   
   public void onLoad() {
-    
+    this.stateQueue.peek().onLoad();
+  }
+
+  public void textIn(String msg) {
+    this.stateQueue.peek().textIn(msg);
   }
   
   protected void onButtonNew() {
@@ -119,16 +127,7 @@ public abstract class GameState {
   
   protected void onButtonCredits() {
     
-  }
-
-  public void drawPlayPanel(Graphics2D g) {
-    
-  }
-
-
-  public void textIn(String msg) {
-    
-  }
+  }  
   
 } 
 
