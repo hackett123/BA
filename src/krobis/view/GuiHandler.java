@@ -134,11 +134,11 @@ public class GuiHandler implements Runnable {
 
         newGame = new JButton(BUTTON_NAME_NEW);
 
-        loadGame = new JButton(BUTTON_NAME_NEW);
+        loadGame = new JButton(BUTTON_NAME_LOAD);
 
-        settings = new JButton(BUTTON_NAME_NEW);
+        settings = new JButton(BUTTON_NAME_SETTINGS);
 
-        credits = new JButton(BUTTON_NAME_NEW);
+        credits = new JButton(BUTTON_NAME_CREDITS);
 
         gameButtons.add(newGame);
         gameButtons.add(loadGame);
