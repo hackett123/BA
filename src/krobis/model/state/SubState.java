@@ -139,7 +139,7 @@ public class SubState extends GameState {
   }
 
   @Override
-  protected GameState[] setStateStructures() {
+  protected SubState[] setStateStructures() {
     return null;
   }
 

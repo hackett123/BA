@@ -2,7 +2,6 @@ package krobis.model.state;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
@@ -13,7 +12,7 @@ import krobis.view.GuiHandler;
 
 public class StateNew extends GameState {
 
-  public StateNew(ModelManager mm) {
+  StateNew(ModelManager mm) {
     super(mm); 
   }
 
@@ -26,7 +25,7 @@ public class StateNew extends GameState {
    * To initialize all necessary components for the first SubState of this GameState
    * @return The SubState
    */
-  private SubState initSubstate1() {
+  private SubState initSubState1() {
     /*
      * Oh dear
      * So. SubStates are a bit complex. I'll walk you through it. 
@@ -68,7 +67,8 @@ public class StateNew extends GameState {
     PlayPanelRenderers.Renderable[] renderers = 
         new PlayPanelRenderers.Renderable[] {
             new PlayPanelRenderers.CenterText(linesTitle,
-                GuiHandler.WIDTH_PLAYPANEL, yCoordsTitle, fontsTitle),
+                GuiHandler.WIDTH_PLAYPANEL, yCoordsTitle)
+                .setFonts(fontsTitle),
             new PlayPanelRenderers.RenderShapes(shapesTitle)
             .setShapeFillOptions(shapesFillFlags)
             .setShapeCenteringOptions(shapeCenterOptions),
@@ -93,20 +93,12 @@ public class StateNew extends GameState {
   }
 
   @Override
-  protected GameState[] setStateStructures() { 
-    return new GameState[] {
-        this.initSubstate1()
+  protected SubState[] setStateStructures() {
+    return new SubState[] {
+        this.initSubState1()
     };
   }
   
-  @Override
-  public void drawPlayPanel(Graphics2D g) {
-    this.stateQueue.peek().drawPlayPanel(g);
-  }
-  
-  @Override
-  public void onLoad() {
-    this.stateQueue.peek().onLoad();
-  }
+
 
 }

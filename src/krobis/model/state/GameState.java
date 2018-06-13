@@ -1,6 +1,7 @@
 package krobis.model.state;
 
 import java.awt.Graphics2D;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -31,10 +32,10 @@ public abstract class GameState {
   /**
    * Queue of states
    */
-  protected Queue<GameState> stateQueue;
+  private Queue<GameState> stateQueue;
   
   
-  public GameState(ModelManager mm) { 
+  GameState(ModelManager mm) {
     this.mm = mm;
     this.stateName = this.setName();
     this.stateQueue = new LinkedList<GameState>();
@@ -48,19 +49,17 @@ public abstract class GameState {
   protected abstract String setName();
   
   /**
-   * To initalize an array of anonymous inner states
-   * @return
+   * To initialize an array of anonymous inner states
+   * @return An array of SubStates for this GameState
    */
-  protected abstract GameState[] setStateStructures();
+  protected abstract SubState[] setStateStructures();
   
   
   private void initStateStructures() {
     GameState[] innerStates = this.setStateStructures();
     
     if (innerStates != null) {
-      for (GameState gs : innerStates) {
-        this.stateQueue.add(gs);
-      }
+      this.stateQueue.addAll(Arrays.asList(innerStates));
     }
     
   }
@@ -99,18 +98,24 @@ public abstract class GameState {
 
   protected void onButtonOptions() {
     // tbd
-  } 
- 
-  public void drawPlayPanel(Graphics2D g) {
-    this.stateQueue.peek().drawPlayPanel(g);
   }
-   
+
+  public void drawPlayPanel(Graphics2D g) {
+    if (this.stateQueue.peek() != null) {
+      this.stateQueue.peek().drawPlayPanel(g);
+    }
+  }
+
   public void onLoad() {
-    this.stateQueue.peek().onLoad();
+    if (this.stateQueue.peek() != null) {
+      this.stateQueue.peek().onLoad();
+    }
   }
 
   public void textIn(String msg) {
-    this.stateQueue.peek().textIn(msg);
+    if (this.stateQueue.peek() != null) {
+      this.stateQueue.peek().textIn(msg);
+    }
   }
   
   protected void onButtonNew() {

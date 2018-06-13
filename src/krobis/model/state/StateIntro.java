@@ -35,8 +35,8 @@ public class StateIntro extends GameState {
   }
 
   @Override
-  protected GameState[] setStateStructures() {
-    return new GameState[] {
+  protected SubState[] setStateStructures() {
+    return new SubState[] {
         
     };
   }
@@ -64,7 +64,8 @@ public class StateIntro extends GameState {
     
     PlayPanelRenderers.Renderable renderer = 
         new PlayPanelRenderers.CenterText(DRAW_LINES,
-            GuiHandler.WIDTH_PLAYPANEL, DRAW_YCOORDS, DRAW_FONTS);
+            GuiHandler.WIDTH_PLAYPANEL, DRAW_YCOORDS)
+            .setFonts(DRAW_FONTS);
     renderer.render(g); 
   }
 
