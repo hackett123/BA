@@ -20,7 +20,7 @@ public class StateIntro extends GameState {
   };
   
   private int[] DRAW_YCOORDS = new int[] {
-      150, 200
+      100, 175
   };
 
   
@@ -63,12 +63,9 @@ public class StateIntro extends GameState {
     g.setColor(Color.DARK_GRAY); 
     
     PlayPanelRenderers.Renderable renderer = 
-        new PlayPanelRenderers.CenterText(
+        new PlayPanelRenderers.CenterText(DRAW_LINES,
             GuiHandler.WIDTH_PLAYPANEL, DRAW_YCOORDS, DRAW_FONTS);
-    renderer.render(g, DRAW_LINES);
-    /*renderer.render(
-        DRAW_LINES, DRAW_YCOORDS, 
-        DRAW_FONTS, GuiHandler.WIDTH_PLAYPANEL, g);*/
+    renderer.render(g); 
   }
 
 }
