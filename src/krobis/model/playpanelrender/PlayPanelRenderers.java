@@ -1,23 +1,11 @@
 package krobis.model.playpanelrender;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.function.BiConsumer;
 import java.util.function.UnaryOperator;
 
 public class PlayPanelRenderers {
-
-	/*
-	 * (continuing from drawPlayPanel() in SubState...)
-	 * This is a disaster and I love it. The most important thing here is the
-	 * below interface. It says that any Renderable needs a render method, which
-	 * takes a Graphics2D instance and renders stuff onto it. Easy enough. Hop over
-	 * the enums for now and go into the RenderShapes static class below...
-	 */
 
 	public interface Renderable {
 		void render(Graphics2D g);
@@ -107,22 +95,48 @@ public class PlayPanelRenderers {
 		}
 	}
 
-	public static class RenderShapes implements Renderable {
+	private interface Colorable {
 
-		/*
-		 * RenderShapes is Renderable. Scroll down to see its render() method (ignore the
-		 * rest for right now)
-		 */
+		Renderable setColor(Color color);
+		Renderable setColors(Color[] colors);
+	}
 
+	private interface Fontable {
+		Renderable setFont(Font font);
+		Renderable setFonts(Font[] fonts);
+	}
+
+	public static class RenderShapes implements Renderable, Colorable {
 
 		private ShapeCenteringOption[] centeringOptions;
 
 		private Shape[] shapes;
 
+		private Color colorDefault = Color.BLACK;
+
+		private Color[] colors;
+
 		private ShapeFillOption[] isFilledEach;
 
 		public RenderShapes(Shape[] shapes) {
 			this.shapes = shapes;
+		}
+
+		public RenderShapes setColor(Color color) {
+			if (this.colors != null) {
+				throw new IllegalArgumentException("Setting the default color after setting " +
+						"color array is nonsensical.");
+			}
+			this.colorDefault = color;
+			return this;
+		}
+
+		public RenderShapes setColors(Color[] colors) {
+			if (colors.length != this.shapes.length) {
+				throw new IllegalArgumentException("Input arrays must have the same lengths!");
+			}
+			this.colors = colors;
+			return this;
 		}
 
 		public RenderShapes setShapeFillOptions(ShapeFillOption[] isFilledEach) {
@@ -143,22 +157,20 @@ public class PlayPanelRenderers {
 			return this;
 		}
 
-		/*
-		 * Here it is. The purpose of this RenderShapes class is to draw a bunch of shapes onto
-		 * the playpanel. But render() doesn't accept any Shapes. The Shapes come from the
-		 * constructor of this class, which is called *before* render() is called, by nature
-		 * of the constructor. The rest of this stuff isn't too important for right now. Jump
-		 * below to the CenterText static class (skip over DrawShapes and DrawText)...
-		 */
-
 		@Override
 		public void render(Graphics2D g) {
+			Color color = new Color(this.colorDefault.getRGB());
 			for (int i = 0; i < shapes.length; i++) {
 				Shape toDraw = shapes[i];
 
 				if (this.centeringOptions != null) {
 					toDraw = this.centeringOptions[i].adjustToCenter(toDraw);
 				}
+
+				if (this.colors != null) {
+					color = this.colors[i];
+				}
+				g.setColor(color);
 
 				if (this.isFilledEach != null) {
 					this.isFilledEach[i].consume(g, toDraw);
@@ -171,58 +183,7 @@ public class PlayPanelRenderers {
 
 	}
 
-	public static class DrawShapes implements Renderable {
-
-		private Shape[] shapes;
-
-		public DrawShapes(Shape[] shapes) {
-			this.shapes = shapes;
-		}
-
-		@Override
-		public void render(Graphics2D g) {
-			for (Shape shape : shapes) {
-				g.draw(shape);
-			}
-		}
-
-	}
-
-
-	public static class DrawText implements Renderable {
-
-		private int[] xCoords;
-		private int[] yCoords;
-
-		private String[] lines;
-
-		public DrawText(String[] lines, int[] xCoords, int[] yCoords) {
-			this.xCoords = xCoords;
-			this.yCoords = yCoords;
-		}
-
-		@Override
-		public void render(Graphics2D g) {
-			throw new UnsupportedOperationException("Unimplemented!");
-		}
-	}
-
-
-	public static class CenterText implements Renderable {
-
-		/*
-		 * This one seems more complicated. It follows the same basic idea: take the stuff
-		 * i need into the constructor, then use it in render(). Look through the render() method
-		 * below.
-		 * If you don't really care anymore, then i'm done here. Hopefully you somewhat see how
-		 * these things come together in the StateNew class where we started; in particular,
-		 * see if you understand everything in the method initSubstate1(). It's confusing
-		 * and not well commented. My b.
-		 * If you wanna see some more weird shit, go back up to the top of this file and look into
-		 * the first enum class (ShapeFillOption).
-		 * P.S. I should take the Font array in through a Builder method, since it's an optional
-		 * field. I'll fix that later.
-		 */
+	public static class CenterText implements Renderable, Colorable, Fontable {
 
 		private int width;
 
@@ -230,7 +191,13 @@ public class PlayPanelRenderers {
 
 		private String[] lines;
 
-		private Font[] fonts = null;
+		private Color colorDefault = Color.BLACK;
+
+		private Color[] colors;
+
+		private Font fontDefault = new Font("Garamond", Font.PLAIN, 32);
+
+		private Font[] fonts;
 
 		public CenterText(String[] lines, int width, int[] yCoords) {
 			if (lines.length != yCoords.length) {
@@ -241,8 +208,29 @@ public class PlayPanelRenderers {
 			this.yCoords = yCoords;
 		}
 
+		public CenterText setFont(Font font) {
+			this.fontDefault = font;
+			return this;
+		}
+
 		public CenterText setFonts(Font[] fonts) {
+			if (fonts.length != this.lines.length) {
+				throw new IllegalArgumentException("Input arrays must have the same lengths!");
+			}
 			this.fonts = fonts;
+			return this;
+		}
+
+		public CenterText setColor(Color color) {
+			this.colorDefault = color;
+			return this;
+		}
+
+		public CenterText setColors(Color[] colors) {
+			if (colors.length != this.lines.length) {
+				throw new IllegalArgumentException("Input arrays must have the same lengths!");
+			}
+			this.colors = colors;
 			return this;
 		}
 
@@ -250,26 +238,11 @@ public class PlayPanelRenderers {
 		@Override
 		public void render(Graphics2D g) {
 
-			if (this.fonts == null) {
-				this.renderWithoutFonts(g, lines);
-			} else {
-				this.renderWithFonts(g, lines);
-			}
-		}
-
-
-		/**
-		 * To center each line of text at its relative y coordinate, based on the used font,
-		 * onto a graphics2d instance
-		 *
-		 * @param lines   The text to render, one String per line
-		 * @param g Graphics object
-		 */
-		private void renderWithoutFonts(Graphics2D g, String[] lines) {
 			// center at half the width
 			int centerAbout = width / 2;
-			// get the current font
-			Font font = g.getFont();
+
+			Font font = new Font(this.fontDefault.getAttributes());
+			Color color = new Color(this.colorDefault.getRGB());
 
 			// for each line...
 			for (int i = 0; i < lines.length; i++) {
@@ -281,42 +254,16 @@ public class PlayPanelRenderers {
 				int thisLength = thisLine.length();
 				int xCoord = centerAbout;
 
-				// get the current FontMetrics
-				FontMetrics metrics = g.getFontMetrics(font);
-				// determine the space needed for the first half of the line and deduct it
-				// from xCoord
-				int space = metrics.charsWidth(chars, 0, thisLength / 2);
-				xCoord -= space;
-
-				g.drawString(thisLine, xCoord, thisCoord);
-			}
-		}
-
-		/**
-		 * To center each line of text at its relative y coordinate, based on the used font,
-		 * onto a graphics2d instance
-		 *
-		 * @param lines   The text to render, one String per line
-		 * @param g Graphics object
-		 */
-		private void renderWithFonts(Graphics2D g, String[] lines) {
-
-			// center at half the width
-			int centerAbout = width / 2;
-
-			// for each line...
-			for (int i = 0; i < lines.length; i++) {
-				// get the line (as String and char[]), y coord, length of the string, and
-				// set current x coord to the center
-				String thisLine = lines[i];
-				char[] chars = thisLine.toCharArray();
-				int thisCoord = yCoords[i];
-				int thisLength = thisLine.length();
-				int xCoord = centerAbout;
-
-				// get and set the current font
-				Font font = fonts[i];
+				// get and set the current font if possible
+				if (this.fonts != null) {
+					font = fonts[i];
+				}
 				g.setFont(font);
+				// same for color
+				if (this.colors != null) {
+					color = colors[i];
+				}
+				g.setColor(color);
 
 				// get the current FontMetrics
 				FontMetrics metrics = g.getFontMetrics(font);
@@ -327,6 +274,7 @@ public class PlayPanelRenderers {
 
 				g.drawString(thisLine, xCoord, thisCoord);
 			}
+
 		}
 
 	}
