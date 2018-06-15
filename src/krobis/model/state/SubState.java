@@ -9,20 +9,6 @@ import krobis.model.ModelManager;
 import krobis.model.playpanelrender.PlayPanelRenderers;
 
 public class SubState extends GameState {
-
-	/*
-	 * (following from the return statement in initSubstate1() in StateNew...)
-	 * Note the fields below. There are, as of now, a few:
-	 *  - renderers, an array of Renderables
-	 *  - an array of Strings called lines
-	 *  - a Color
-	 *  - an array of Shapes
-	 *  - a Consumer, of type String
-	 *  - a Runnable
-	 *  All, some, or none of these may be initialized by the builder methods below to give
-	 *  them function. Read through the fields and their Javadocs all the way down.
-	 */
-
 	/**
 	 * drawPlayPanel() functionality
 	 */

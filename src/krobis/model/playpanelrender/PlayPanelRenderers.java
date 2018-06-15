@@ -238,9 +238,6 @@ public class PlayPanelRenderers {
 		@Override
 		public void render(Graphics2D g) {
 
-			// center at half the width
-			int centerAbout = width / 2;
-
 			Font font = new Font(this.fontDefault.getAttributes());
 			Color color = new Color(this.colorDefault.getRGB());
 
@@ -250,9 +247,8 @@ public class PlayPanelRenderers {
 				// set current x coord to the center
 				String thisLine = lines[i];
 				char[] chars = thisLine.toCharArray();
-				int thisCoord = yCoords[i];
-				int thisLength = thisLine.length();
-				int xCoord = centerAbout;
+				int thisYCoord = yCoords[i];
+				int thisLength = chars.length;
 
 				// get and set the current font if possible
 				if (this.fonts != null) {
@@ -269,14 +265,23 @@ public class PlayPanelRenderers {
 				FontMetrics metrics = g.getFontMetrics(font);
 				// determine the space needed for the first half of the line and deduct it
 				// from xCoord
-				int space = metrics.charsWidth(chars, 0, thisLength / 2);
-				xCoord -= space;
+				int space = metrics.charsWidth(chars, 0, thisLength);
+				int spaceLeft = this.width - space;
+				int xCoord = (spaceLeft / 2);
 
-				g.drawString(thisLine, xCoord, thisCoord);
+				g.drawString(thisLine, xCoord, thisYCoord);
 			}
 
 		}
 
+	}
+
+	public static class CenterLines extends CenterText {
+
+		public CenterLines(String[] lines, int width, int[] yCoords) {
+			super(lines, width, yCoords);
+			throw new UnsupportedOperationException("Unimplemented cause git fucked up");
+		}
 	}
 
 }
