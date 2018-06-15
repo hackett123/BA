@@ -278,9 +278,39 @@ public class PlayPanelRenderers {
 
 	public static class CenterLines extends CenterText {
 
-		public CenterLines(String[] lines, int width, int[] yCoords) {
-			super(lines, width, yCoords);
-			throw new UnsupportedOperationException("Unimplemented cause git fucked up");
+		public CenterLines(String[] lines, Font font, int width, int firstYCoord) {
+			super(lines, width, determineYCoords(font, firstYCoord, lines.length));
+			this.setFont(font);
+		}
+
+
+		public CenterLines(String[] lines, Font[] fonts, int width, int firstYCoord) {
+			super(lines, width, determineYCoords(fonts, firstYCoord));
+			this.setFonts(fonts);
+		}
+
+		private static int[] determineYCoords(Font font, int currentYCoord, int numLines) {
+			int[] yCoords = new int[numLines];
+			Canvas canvas = new Canvas();
+			int spaceForLine = canvas.getFontMetrics(font).getHeight();
+			for (int i = 0; i < numLines; i++) {
+				yCoords[i] = currentYCoord;
+				currentYCoord += spaceForLine;
+			}
+			return yCoords;
+		}
+
+		private static int[] determineYCoords(Font[] fonts, int currentYCoord) {
+			int[] yCoords = new int[fonts.length];
+			Canvas canvas = new Canvas();
+			for (int i = 0; i < fonts.length; i++) {
+				Font rn = fonts[i];
+				int spaceForLine = canvas.getFontMetrics(rn).getHeight();
+				yCoords[i] = currentYCoord;
+				currentYCoord += spaceForLine;
+			}
+
+			return yCoords;
 		}
 	}
 

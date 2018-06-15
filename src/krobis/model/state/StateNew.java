@@ -1,3 +1,4 @@
+/*
 package krobis.model.state;
 
 import java.awt.Color;
@@ -21,20 +22,13 @@ public class StateNew extends GameState {
     return "New";
   }
   
-  /**
+  */
+/**
    * To initialize all necessary components for the first SubState of this GameState
    * @return The SubState
-   */
+   *//*
+
   private SubState initSubState1() {
-    /*
-     * Oh dear
-     * So. SubStates are a bit complex. I'll walk you through it. 
-     * Basically, each SubState is initially built receiving only the modelmanager (this.mm). 
-     * In order to make them useful, use the builder methods to add functionality. Jump 
-     * to the return statement for this method below...
-     */
-    
-    
     // title renderer
     int[] yCoordsTitle = new int[] { 100, 175 };
     // title fonts
@@ -73,32 +67,23 @@ public class StateNew extends GameState {
             .setShapeFillOptions(shapesFillFlags)
             .setShapeCenteringOptions(shapeCenterOptions),
         }; 
-    
-    
-    /*
-     * ...here. Note how the (still anonymous) new SubState takes in this.mm as its only
-     * constructor value. However, many other builder methods are called to give it its
-     * functionality. Hop into the SubState class file to see what this shit is.
-     */
-    return new SubState(this.mm) 
-            .setColor(Color.BLACK)
-            .setRenderers(renderers)
-            .setLines(linesTitle)
-            .overrideOnLoad(() -> {
-              System.out.println("temporary filler code here");
-            })
-            .overrideTextIn((text) -> {
-              // eventually provide real content here
-            });
+
+    return new SubState(this.mm)
+			.setRenderers1(renderers);
   }
 
   @Override
-  protected SubState[] setStateStructures() {
+  protected SubState[] setSubStateStructures() {
     return new SubState[] {
         this.initSubState1()
     };
   }
-  
+
+	@Override
+	protected PlayPanelRenderers.Renderable[] setRenderers() {
+		return null;
+	}
 
 
 }
+*/

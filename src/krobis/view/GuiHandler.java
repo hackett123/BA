@@ -14,7 +14,7 @@ import javax.swing.*;
 
 import krobis.controller.GameController;
 
-public class GuiHandler implements Runnable { 
+public class GuiHandler {
   
     private static final int WIDTH = 1800;
     private static final int HEIGHT = 960;
@@ -96,15 +96,14 @@ public class GuiHandler implements Runnable {
         this.gameController = gameController;
     }
 
-    @Override
-    public void run() {
+    public void initGUI() {
       // to do: 
       this.initFrame();
       
       this.initContainers();
       
       this.initPanels();
-      
+
       this.initButtons();
       
       this.initTextIn(); 
@@ -115,7 +114,7 @@ public class GuiHandler implements Runnable {
       
     }
 
-    private void displayStartupScreen() {
+    public void displayStartupScreen() {
 
         /**
          * panelDraw setup
@@ -317,6 +316,6 @@ public class GuiHandler implements Runnable {
     }
 
     public void repaint() {
-      this.panelDraw.repaint();
+        SwingUtilities.invokeLater(() -> this.panelDraw.repaint());
     }
 }
